@@ -1,0 +1,8 @@
+{"success":true,"message":"Pajak Berhasil di Delete","data":{"id":1,"nama":"pph","rate":"5.0","created_at":null,"updated_at":null}}
+{"success":true,"message":"List Item Berhasil di ambil","data":{"id":1,"nama":"baju batik","pajak":[{"id":1,"nama":"pph","rate":5},{"id":2,"nama":"pajak toko","rate":10}]}}
+{"success":true,"message":"Pajak Berhasil di ambil","data":[{"id":1,"nama":"pph","rate":"5.0","created_at":null,"updated_at":null},{"id":2,"nama":"pajak toko","rate":"10.0","created_at":null,"updated_at":null}]}
+{"success":true,"message":"Item Berhasil di Update","data":[{"id_item":"1","id_pajak":"1"},{"id_item":"1","id_pajak":"2"},{"id_item":"1","id_pajak":"3"}]}
+{"success":true,"message":"Pajak Berhasil di Update","data":{"id":1,"nama":"bangunan","rate":"20","created_at":null,"updated_at":null}}
+{"success":true,"message":"Item Berhasil di Tambah","data":{"nama":"baju batik","id":1}}
+{"success":true,"message":"Pajak Berhasil di Tambah","data":{"nama":"pph","rate":"5","id":1}}
+{"success":true,"message":"Item Berhasil di Delete","data":{"id":1,"nama":"baju batik","created_at":null,"updated_at":null}}
