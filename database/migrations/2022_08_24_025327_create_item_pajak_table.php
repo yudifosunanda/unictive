@@ -15,8 +15,8 @@ class CreateItemPajakTable extends Migration
     {
         Schema::create('item_pajak', function (Blueprint $table) {
           $table->id();
-          $table->integer('id_item');
-          $table->integer('id_pajak');
+          $table->integer('item_id');
+          $table->integer('pajak_id');
           $table->timestamps();
         });
     }
