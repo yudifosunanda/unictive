@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use App\Models\PajakModel;
-use App\Models\ItemPajakModel;
+use App\Models\Pajak;
+use App\Models\ItemPajak;
 
 class PajakController extends Controller
 {
 
   public function getdata(){
 
-      $data = PajakModel::all();
+      $data = Pajak::all();
 
       return $this->sendResponse($data, "Pajak Berhasil di ambil");
 
@@ -34,7 +34,7 @@ class PajakController extends Controller
         return $this->sendError("Validation Error", $validator->errors());
       }
 
-      $query = PajakModel::create([
+      $query = Pajak::create([
     		'nama' => $request->nama,
     		'rate' => $request->rate
     	]);
@@ -49,7 +49,7 @@ class PajakController extends Controller
         'rate'=>'required|numeric'
       ]);
 
-      $data =  PajakModel::find($id);
+      $data =  Pajak::find($id);
 
       if(!$data){
         return $this->sendError("Unknown Data", "Data tidak ditemukan");
@@ -65,13 +65,13 @@ class PajakController extends Controller
 
   public function delete($id){
 
-      $data =  PajakModel::find($id);
+      $data =  Pajak::find($id);
 
       if(!$data){
         return $this->sendError("Unknown Data", "Data tidak ditemukan");
       }else{
         $data->delete();
-        $data2=ItemPajakModel::where('id_pajak',$id)->delete();
+        $data2=ItemPajak::where('id_pajak',$id)->delete();
       }
 
       return $this->sendResponse($data, "Pajak Berhasil di Delete");

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ItemModel extends Model
+class Item extends Model
 {
     use HasFactory;
     protected $table='item';
     protected $fillable = ['nama'];
     public $timestamps = false;
 
-    public function itempajak()
+    public function pajaks()
      {
-     	return $this->hasMany(ItemPajakModel::class,'id_item');
+     	return $this->belongsToMany(Pajak::class);
      }
 
 }

@@ -12,14 +12,4 @@ class ItemPajakModel extends Model
     protected $fillable = ['id_item','id_pajak'];
     public $timestamps = false;
 
-
-    public function item()
-     {
-     	return $this->belongsTo(ItemModel::class);
-     }
-
-    public function pajak()
-     {
-     	return $this->belongsTo(PajakModel::class);
-     }
 }

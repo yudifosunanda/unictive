@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use App\Models\ItemModel;
-use App\Models\ItemPajakModel;
+use App\Models\Item;
+use App\Models\Pajak;
+use App\Models\ItemPajak;
 
 class ItemController extends Controller
 {
@@ -50,22 +51,14 @@ class ItemController extends Controller
       }
 
       //input master Item
-      $query1 = ItemModel::create([
+      $item = Item::create([
         'nama' => $request->nama,
       ]);
 
-      //input ke itempajak table
-      $data=[];
-      foreach($request->pajak as $key => $value ){
-        $data[$key] = array(
-          'id_item'=>$query1->id,
-          'id_pajak'=>$value
-        );
+      $pajak = Pajak::find($request->pajak);
+      $item->pajaks()->attach($pajak);
 
-        $query2 = ItemPajakModel::create($data[$key]);
-      }
-
-      return $this->sendResponse($query1, "Item Berhasil di Tambah");
+      return $this->sendResponse($item, "Item Berhasil di Tambah");
   }
 
   public function update(Request $request,$id){
@@ -76,7 +69,7 @@ class ItemController extends Controller
         "pajak.*"  => "required|distinct",
       ]);
 
-      $data  =  ItemModel::find($id);
+      $data  =  Item::find($id);
 
       //check if data exist
       if(!$data){
@@ -86,36 +79,9 @@ class ItemController extends Controller
         $data->nama = $request->nama;
         $data->save();
 
-      //update table itempajak item_pajak
-        $findData=ItemPajakModel::where('id_item',$id)->get();
-
-        $count1 = count($findData);
-        $count2 = count($request->pajak);
-
-        $data=[];
-
-        if($count1==$count2){
-          foreach($findData as $key=> $value ){
-            //updating itempajak table
-            $data = ItemPajakModel::where(['id_item'=>$id,'id_pajak'=>$value['id_pajak']])->update([
-              'id_pajak'=>$request->pajak[$key],
-            ]);
-          }
-        }else{
-          //deleting itempajak table
-          ItemPajakModel::where('id_item',$id)->delete();
-
-          //input new value itempajak table
-          $data=[];
-          foreach($request->pajak as $key => $value ){
-            $data[$key] = array(
-              'id_item'=>$id,
-              'id_pajak'=>$value
-            );
-
-            $query2 = ItemPajakModel::create($data[$key]);
-          }
-        }
+      //update table junction
+       $pajak = Pajak::find($request->pajak);
+       $data->pajaks()->sync($pajak);
 
       }
 
@@ -125,14 +91,14 @@ class ItemController extends Controller
 
   public function delete($id){
 
-      $data =  ItemModel::find($id);
+      $data =  Item::find($id);
 
       //check if data exist
       if(!$data){
         return $this->sendError("Unknown Data", "Data tidak ditemukan");
       }else{
         $data->delete();
-        $data2=ItemPajakModel::where('id_item',$id)->delete();
+        $data->pajaks()->wherePivot('item_id',$id)->detach();
       }
 
       return $this->sendResponse($data, "Item Berhasil di Delete");
