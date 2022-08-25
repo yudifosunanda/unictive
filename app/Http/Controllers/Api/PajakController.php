@@ -71,7 +71,7 @@ class PajakController extends Controller
         return $this->sendError("Unknown Data", "Data tidak ditemukan");
       }else{
         $data->delete();
-        $data2=ItemPajak::where('id_pajak',$id)->delete();
+        $data->items()->wherePivot('pajak_id',$id)->detach();
       }
 
       return $this->sendResponse($data, "Pajak Berhasil di Delete");
