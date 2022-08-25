@@ -19,7 +19,7 @@ class ItemController extends Controller
       $data = db::table('item_pajak')
       ->join('item','item.id','item_pajak.item_id')
       ->join('pajak','pajak.id','item_pajak.pajak_id')
-      ->select('item.id as id','item.nama as nama',DB::raw("concat('[',group_concat(json_object('id',pajak.id,'nama',pajak.nama,'rate',pajak.rate)),']')AS pajak"))
+      ->select('item.id as id','item.nama as nama',DB::raw("concat('[',group_concat(json_object('id',pajak.id,'nama',pajak.nama,'rate',concat(pajak.rate,'%'))),']')AS pajak"))
       ->groupBy('item.id')
       ->groupBy('item.nama')
       ->get();
@@ -29,7 +29,7 @@ class ItemController extends Controller
       $dataquery = [
         'id'=>$d->id,
         'nama'=>$d->nama,
-        'pajak'=>json_decode($d->pajak)
+        'pajak'=>json_decode($d->pajak),
         ];
       }
 
