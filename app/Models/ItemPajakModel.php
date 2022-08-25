@@ -9,7 +9,7 @@ class ItemPajakModel extends Model
 {
     use HasFactory;
     protected $table='item_pajak';
-    protected $fillable = ['id_item','id_pajak'];
+    protected $fillable = ['item_id','pajak_id'];
     public $timestamps = false;
 
 }
