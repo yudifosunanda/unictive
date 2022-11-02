@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemPajakTable extends Migration
+class CreateHobbiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateItemPajakTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_pajak', function (Blueprint $table) {
+        Schema::create('hobbies', function (Blueprint $table) {
           $table->id();
-          $table->integer('item_id');
-          $table->integer('pajak_id');
-          $table->timestamps();
+          $table->unsignedBigInteger('member_id');
+          $table->string('hobbies');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateItemPajakTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_pajak');
+        Schema::dropIfExists('hobbies');
     }
 }
